@@ -13,6 +13,7 @@ interface CardProps {
     activeList: number;
     handleDeleteCard: (listIndex: number, cardIndex: number) => void;
     handleMove: (listPositionToMoveTo: number, cardPositionToMoveTo: number) => void;
+    handleOpenModal: (cardId: number, listIndex:number) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -27,11 +28,12 @@ const Card: React.FC<CardProps> = ({
     activeList,
     handleDeleteCard,
     handleMove,
+    handleOpenModal,
 }) => {
 
     const [selectedListPosition, setSelectedListPosition] = React.useState<number>(0);
     const [selectedCardPosition, setSelectedCardPosition] = React.useState<number>(0);
-    const data = sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state') || '') : [];
+    const data = localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state') || '') : [];
     const cardsData = data[selectedListPosition].cards
     
     const handleListPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,7 +48,7 @@ const Card: React.FC<CardProps> = ({
         <div>
             <div className='card'>
                 <div className=' flex justify-space-between'>
-                    <p>{_.truncate(title, {'length': 22})}</p>
+                    <p onClick={() => handleOpenModal(cardIndex, listIndex)}>{_.truncate(title, {'length': 22})}</p>
                     <div>
                         <span className='options'>
                             <span onClick={() => handleOpenCardDropdown(cardIndex, listIndex)}>&#9998;</span>

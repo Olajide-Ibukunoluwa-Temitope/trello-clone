@@ -20,6 +20,7 @@ interface ListProps {
     activeList: number;
     handleDeleteCard: (listIndex: number, cardIndex: number) => void;
     handleMove: (listPositionToMoveTo: number, cardPositionToMoveTo: number) => void;
+    handleOpenModal: (cardId :number, listId: number) => void;
 }
 
 const List: React.FC<ListProps> = ({
@@ -40,7 +41,8 @@ const List: React.FC<ListProps> = ({
     activeCard,
     activeList,
     handleDeleteCard,
-    handleMove
+    handleMove,
+    handleOpenModal
 }) => {
     return (
         <div className='column'>
@@ -64,6 +66,7 @@ const List: React.FC<ListProps> = ({
                             activeList={activeList}
                             handleDeleteCard={handleDeleteCard}
                             handleMove={handleMove}
+                            handleOpenModal={handleOpenModal}
                         />
                     ))
                 }

@@ -3,10 +3,12 @@ import _ from 'lodash';
 
 import Header from '../components/Header';
 import List from '../components/List';
+import Modal from '../components/Modal';
+import CardDetails from '../components/CardDetails';
 
 
 const TrelloBoard: React.FC = () => {
-    const data = sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state') || '') : [];
+    const data = localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state') || '') : [];
 
     const [state, setState] = useState<Array<Record<string, any>>>(data);
     const [createColumn, setCreateColumn] = useState<boolean>(false);
@@ -17,6 +19,18 @@ const TrelloBoard: React.FC = () => {
     const [activeCard, setActiveCard] = useState<number>(0);
     const [activeList, setActiveList] = useState<number>(0);
     const [openDropdown, setOpenDropdown] = useState<boolean>(false);
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [editModalTitle, setEditModalTitle] = useState<boolean>(false);
+    const [editModalDescDisable, setModalDescDisable] = useState<boolean>(true);
+    const [fieldChange, setFieldChange] = useState<boolean>(false);
+    const [cardDetails, setCardDetails] = useState<Record<string, string>>({
+        modalTitle: '',
+        modalDesc: ''
+    });
+
+    const activeListTitle = state[activeList]?.title;
+    const activeCardTitle = state[activeList]?.cards[activeCard]?.title;
+    const activeCardDesc = state[activeList]?.cards[activeCard]?.cardDesc;
 
     const handleAddList = () => {
         setCreateColumn(true)
@@ -46,7 +60,7 @@ const TrelloBoard: React.FC = () => {
     const handleCreateNewList = () => {
         if(columnTitle !== ''){
             setState((prevState: Array<Record<string, any>>) => {
-                sessionStorage.setItem('state', JSON.stringify([
+                localStorage.setItem('state', JSON.stringify([
                     ...prevState,
                     {
                         id: 'col_' + Math.random(),
@@ -82,7 +96,7 @@ const TrelloBoard: React.FC = () => {
             columns[position].cards = updatedCard;
 
             setState((prevState: Array<Record<string, any>>) => {
-                sessionStorage.setItem('state', JSON.stringify([
+                localStorage.setItem('state', JSON.stringify([
                     ...columns
                 ]));
 
@@ -104,7 +118,7 @@ const TrelloBoard: React.FC = () => {
         let listData = data;
         listData.splice(listIndex, 1);
         setState((prevState: Array<Record<string, any>>) => {
-            sessionStorage.setItem('state', JSON.stringify([
+            localStorage.setItem('state', JSON.stringify([
                 ...listData
             ]));
             return [
@@ -128,7 +142,7 @@ const TrelloBoard: React.FC = () => {
         let listData = data;
         listData[listIndex].cards.splice(cardIndex, 1);
         setState((prevState: Array<Record<string, any>>) => {
-            sessionStorage.setItem('state', JSON.stringify([
+            localStorage.setItem('state', JSON.stringify([
                 ...listData
             ]));
             return [
@@ -146,7 +160,7 @@ const TrelloBoard: React.FC = () => {
         listData[activeList].cards.splice(activeCard, 1);
         
         setState((prevState: Array<Record<string, any>>) => {
-            sessionStorage.setItem('state', JSON.stringify([
+            localStorage.setItem('state', JSON.stringify([
                 ...listData
             ]));
             return [
@@ -155,6 +169,94 @@ const TrelloBoard: React.FC = () => {
             
         });
         setOpenDropdown(false);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setModalDescDisable(true);
+    };
+
+    const handleModalContentChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const {name, value} = event.target;
+        setFieldChange(true)
+        setCardDetails((prevState: Record<string, string>) => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        });
+        
+    };
+
+    const handleUpdateCardTitle = () => {
+        let lists = JSON.parse(localStorage.getItem('state') || '');
+        const listPosition = _.findIndex(lists, ['id', state[activeList].id]);
+        const cardPosition = _.findIndex(lists[listPosition].cards, ['id', state[activeList].cards[activeCard].id]);
+        lists[listPosition].cards[cardPosition].title = cardDetails.modalTitle ? cardDetails.modalTitle : lists[listPosition].cards[cardPosition].title;
+
+        setState((prevState: Array<Record<string, any>>) => {
+            localStorage.setItem('state', JSON.stringify([
+                ...lists
+            ]));
+            return [
+                ...lists
+            ];
+            
+        });
+        
+        setEditModalTitle(false)
+        setCardDetails((prevState: Record<string, string>) => {
+            return {
+                ...prevState,
+                modalTitle: ''
+            }
+        });
+    };
+
+    const handleUpdateCardDesc = () => {
+        if(fieldChange) {
+            let lists = JSON.parse(localStorage.getItem('state') || '');
+            const listPosition = _.findIndex(lists, ['id', state[activeList].id]);
+            const cardPosition = _.findIndex(lists[listPosition].cards, ['id', state[activeList].cards[activeCard].id]);
+            lists[listPosition].cards[cardPosition].cardDesc = cardDetails.modalDesc;
+
+            setState((prevState: Array<Record<string, any>>) => {
+                localStorage.setItem('state', JSON.stringify([
+                    ...lists
+                ]));
+                return [
+                    ...lists
+                ];
+                
+            });
+            
+            setModalDescDisable(true);
+            setFieldChange(false);
+        } else {
+            setModalDescDisable(true);
+        }
+    };
+
+    const handleModalTitleEditOn = () => {
+        setEditModalTitle(true);
+    };
+
+    const handleModalTitleEditOff = () => {
+        setEditModalTitle(false);
+    };
+
+    const handleModalDescEditOn = () => {
+        setModalDescDisable(false);
+    };
+
+    const handleModalDescEditOff = () => {
+        setModalDescDisable(true);
+    };
+
+    const handleOpenModal = (cardId:number, listId:number) => {
+        setActiveCard(cardId);
+        setActiveList(listId);
+        setOpenModal(true);
     };
 
     return (
@@ -191,6 +293,7 @@ const TrelloBoard: React.FC = () => {
                                         activeList={activeList}
                                         handleDeleteCard={handleDeleteCard}
                                         handleMove={handleMove}
+                                        handleOpenModal={handleOpenModal}
                                     />
                                 )
                             })
@@ -226,6 +329,22 @@ const TrelloBoard: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <Modal open={openModal} handleCloseModal={handleCloseModal} >
+                <CardDetails 
+                    cardTitle={activeCardTitle} 
+                    desc={activeCardDesc} 
+                    listTitle={activeListTitle} 
+                    handleModalContentChange={handleModalContentChange} 
+                    handleUpdateCardTitle={handleUpdateCardTitle}
+                    handleUpdateCardDesc={handleUpdateCardDesc}
+                    editModalTitle={editModalTitle}
+                    editModalDescDisable={editModalDescDisable}
+                    handleModalTitleEditOn={handleModalTitleEditOn}
+                    handleModalTitleEditOff={handleModalTitleEditOff}
+                    handleModalDescEditOn={handleModalDescEditOn}
+                    handleModalDescEditOff={handleModalDescEditOff}
+                />
+            </Modal>
         </main>
     )
 }
