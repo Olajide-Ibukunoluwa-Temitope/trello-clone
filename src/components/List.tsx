@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Card from './Card';
 
 interface ListProps {
     title: string;
@@ -12,6 +13,12 @@ interface ListProps {
     activeInput: number;
     index: number;
     handleDeleteList: (listIndex: number) => void;
+    handleOpenCardDropdown: (cardId :number, listId: number) => void;
+    handleCloseCardDropdown: () => void;
+    openDropdown: boolean;
+    activeCard: number;
+    activeList: number;
+    handleDeleteCard: (listIndex: number, cardIndex: number) => void;
 }
 
 const List: React.FC<ListProps> = ({
@@ -24,7 +31,14 @@ const List: React.FC<ListProps> = ({
     handleCreateNewCard,
     activeInput,
     index,
-    handleDeleteList
+    handleDeleteList,
+    cards,
+    handleOpenCardDropdown,
+    handleCloseCardDropdown,
+    openDropdown,
+    activeCard,
+    activeList,
+    handleDeleteCard
 }) => {
     return (
         <div className='column'>
@@ -32,7 +46,25 @@ const List: React.FC<ListProps> = ({
                 <h4>{title}</h4>
                 <span onClick={() => handleDeleteList(index)}>&#10005;</span>
             </div>
-            
+            <div className='card-container'>
+                {
+                    cards.map(({title, cardDesc}, idx) => (
+                        <Card 
+                            key={idx} 
+                            title={title}
+                            cardDesc={cardDesc}
+                            cardIndex={idx}
+                            listIndex={index}
+                            handleOpenCardDropdown={handleOpenCardDropdown}
+                            handleCloseCardDropdown={handleCloseCardDropdown}
+                            openDropdown={openDropdown}
+                            activeCard={activeCard}
+                            activeList={activeList}
+                            handleDeleteCard={handleDeleteCard}
+                        />
+                    ))
+                }
+            </div>
             <div>
                 {
                     openField && activeInput === index? (

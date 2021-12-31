@@ -14,6 +14,9 @@ const TrelloBoard: React.FC = () => {
     const [createCard, setCreateCard] = useState<boolean>(false);
     const [cardTitle, setCardTitle] = useState<string>('');
     const [activeCardInput, setActiveCardInput] = useState<number>(0);
+    const [activeCard, setActiveCard] = useState<number>(0);
+    const [activeList, setActiveList] = useState<number>(0);
+    const [openDropdown, setOpenDropdown] = useState<boolean>(false);
 
     const handleAddList = () => {
         setCreateColumn(true)
@@ -111,7 +114,29 @@ const TrelloBoard: React.FC = () => {
         });
     }
 
-    
+    const handleOpenCardDropdown = (cardId:number, listId:number) => {
+        setActiveCard(cardId);
+        setActiveList(listId);
+        setOpenDropdown(!openDropdown)
+    };
+
+    const handleCloseCardDropdown = () => {
+        setOpenDropdown(false);
+    };
+
+    const handleDeleteCard = (listIndex: number, cardIndex: number) => {
+        let listData = data;
+        listData[listIndex].cards.splice(cardIndex, 1);
+        setState((prevState: Array<Record<string, any>>) => {
+            sessionStorage.setItem('state', JSON.stringify([
+                ...listData
+            ]));
+            return [
+                ...listData
+            ];
+            
+        });
+    };
 
 
     return (
@@ -141,6 +166,12 @@ const TrelloBoard: React.FC = () => {
                                         handleCardTitleChange={handleCardTitleChange}
                                         handleCreateNewCard={handleCreateNewCard}
                                         handleDeleteList={handleDeleteList}
+                                        handleOpenCardDropdown={handleOpenCardDropdown}
+                                        handleCloseCardDropdown={handleCloseCardDropdown}
+                                        openDropdown={openDropdown}
+                                        activeCard={activeCard}
+                                        activeList={activeList}
+                                        handleDeleteCard={handleDeleteCard}
                                     />
                                 )
                             })

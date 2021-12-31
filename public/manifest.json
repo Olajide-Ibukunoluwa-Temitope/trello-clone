@@ -1,6 +1,7 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
+  "description": "This is a simple trello clone web app to demonstrate some of the core functionalities of trello",
   "icons": [
     {
       "src": "favicon.ico",

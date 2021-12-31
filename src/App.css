@@ -162,3 +162,66 @@ header{
 .add-list p{
   margin: 0;
 }
+
+.card-container{
+  overflow-y: auto;
+}
+
+.card{
+  background-color: white;
+  padding: 10px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0px 0.5px #888888;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.card p {
+  margin: 0;
+  width: 75%;
+}
+
+.card div span.options{
+  display: flex;
+  justify-content: center;
+}
+
+.card div span.options span{
+  margin: 0 3px
+}
+
+.dropdown{
+  position: absolute;
+  background-color: lightgray;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.dropdown-card-title h5{
+  margin: 7px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.close-dropdown{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.select-input{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  background-color: white;
+  border: solid 0.5px gray;
+  border-radius: 5px;
+  margin: 4px 0;
+}
+
+.move-btn-container{
+  display: flex;
+  justify-content: flex-end;
+}
