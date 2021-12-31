@@ -1,43 +1,40 @@
-# Getting Started with Create React App
+# Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with the typescript flag. To start up with this project simply follow the steps below;
 
-## Available Scripts
+## Steps
 
-In the project directory, you can run:
+1. clone this project with `git clone <https url>`
+2. on sucessful cloning navigate into the project directory and run `npm install` to install all npm packages used in this project.
+3. you can then proceed to run `npm start` after step 2 has been successfully done
+4. If all the above steps were successful then the app should be running in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### `npm start`
+## Functionalities worked on
+The task was to build a clone of Trello in the recommended time of 4 hours. While working on the task I decided to focus primarily on what I consider the core functionalities as listed below:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. user can create/add as many lists as needed
+2. under each list user can create/add as many cards as required
+3. user can delete either a list or a card as required
+4. user can click on a card to see more information like the name of the card, the description of any and the the list in which the card exists
+5. user can also edit the name of the card and the description in the modal showing the card details
+6. user can move a card existing on a specific list to any location on another list asides the current list in exist on
+7. local storage was implemented to store data
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Given the fact that this task is designed to test ability rather than design, my focus was more on functionality given the time constrain.
 
-### `npm test`
+## Time Spent
+I spent a little over 4 hours on this, I believe i spent a maximum of 30 mins extra, it's most likely less than 30 mins though.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Functionalities I would have worked on if this was to be released to production
+If this was to be released to production, a few of the things i would have worked on or added to this would include:
 
-### `npm run build`
+1. a better state management system
+2. a little more focus on design beause i'm very particular about the type of design i work on
+3. ability to add labels to cards
+4. ability to add checklist to cards
+5. ability to add members to cards.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
