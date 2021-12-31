@@ -19,6 +19,7 @@ interface ListProps {
     activeCard: number;
     activeList: number;
     handleDeleteCard: (listIndex: number, cardIndex: number) => void;
+    handleMove: (listPositionToMoveTo: number, cardPositionToMoveTo: number) => void;
 }
 
 const List: React.FC<ListProps> = ({
@@ -38,7 +39,8 @@ const List: React.FC<ListProps> = ({
     openDropdown,
     activeCard,
     activeList,
-    handleDeleteCard
+    handleDeleteCard,
+    handleMove
 }) => {
     return (
         <div className='column'>
@@ -61,6 +63,7 @@ const List: React.FC<ListProps> = ({
                             activeCard={activeCard}
                             activeList={activeList}
                             handleDeleteCard={handleDeleteCard}
+                            handleMove={handleMove}
                         />
                     ))
                 }

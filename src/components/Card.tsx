@@ -12,6 +12,7 @@ interface CardProps {
     activeCard: number;
     activeList: number;
     handleDeleteCard: (listIndex: number, cardIndex: number) => void;
+    handleMove: (listPositionToMoveTo: number, cardPositionToMoveTo: number) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -25,7 +26,21 @@ const Card: React.FC<CardProps> = ({
     activeCard,
     activeList,
     handleDeleteCard,
+    handleMove,
 }) => {
+
+    const [selectedListPosition, setSelectedListPosition] = React.useState<number>(0);
+    const [selectedCardPosition, setSelectedCardPosition] = React.useState<number>(0);
+    const data = sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state') || '') : [];
+    const cardsData = data[selectedListPosition].cards
+    
+    const handleListPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedListPosition(Number(event.target.value));
+    };
+
+    const handleCardPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCardPosition(Number(event.target.value));
+    };
 
     return (
         <div>
@@ -56,19 +71,37 @@ const Card: React.FC<CardProps> = ({
                                                 name="list" 
                                                 id="list"
                                                 className='select-input'
+                                                onChange={handleListPositionChange}
                                             >
-                                                <option value={'volvo'}>Volvo</option>
-                                                
+                                                {
+                                                    data.map((value: Record<string, any>, index: number) => {
+                                                        return activeList !== index && <option key={index} value={index}>{value.title}</option>;
+                                                    })
+                                                }
                                             </select>
                                         </div>
                                         <div>
                                             <label htmlFor="card">Card</label>
-                                            <select name="card" id="card" className='select-input' >
-                                                <option value={'volvo'}>Volvo</option>
+                                            <select 
+                                                name="card" 
+                                                id="card" 
+                                                className='select-input' 
+                                                onChange={handleCardPositionChange}
+                                            >
+                                                {
+                                                    cardsData.length !== 0 ? (
+                                                        cardsData.map(({title}: {title: string}, index: number) => (
+                                                            <option key={index} value={index}>{index + 1}</option>
+                                                        ))
+                                                    ) : (
+                                                        <option value={0}>1</option>
+                                                    )
+                                                    
+                                                }
                                             </select>
                                         </div>
                                         <div className='move-btn-container'>
-                                            <button type='button' className='btn'>Move</button>
+                                            <button type='button' className='btn'onClick={() => handleMove(selectedListPosition, selectedCardPosition)}>Move</button>
                                         </div>
                                     </div>
                                 </div>

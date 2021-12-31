@@ -138,6 +138,24 @@ const TrelloBoard: React.FC = () => {
         });
     };
 
+    const handleMove = (listPositionToMoveTo: number, cardPositionToMoveTo: number) => {
+        let listData = data;
+        let listToMoveFrom = data[activeList];
+        
+        listData[listPositionToMoveTo].cards.splice(cardPositionToMoveTo, 0, listToMoveFrom.cards[activeCard]);
+        listData[activeList].cards.splice(activeCard, 1);
+        
+        setState((prevState: Array<Record<string, any>>) => {
+            sessionStorage.setItem('state', JSON.stringify([
+                ...listData
+            ]));
+            return [
+                ...listData
+            ];
+            
+        });
+        setOpenDropdown(false);
+    };
 
     return (
         <main id='board'>
@@ -172,6 +190,7 @@ const TrelloBoard: React.FC = () => {
                                         activeCard={activeCard}
                                         activeList={activeList}
                                         handleDeleteCard={handleDeleteCard}
+                                        handleMove={handleMove}
                                     />
                                 )
                             })
