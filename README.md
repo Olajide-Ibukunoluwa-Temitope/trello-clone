@@ -25,7 +25,7 @@ Given the fact that this task is designed to test ability rather than design, my
 ## Time Spent
 I spent a little over 4 hours on this, I believe i spent a maximum of 30 mins extra, it's most likely less than 30 mins though.
 
-## Functionalities I would have worked on if this was to be released to production
+## Things I would have worked on if this was to be released to production
 If this was to be released to production, a few of the things i would have worked on or added to this would include:
 
 1. a better state management system
@@ -33,11 +33,6 @@ If this was to be released to production, a few of the things i would have worke
 3. ability to add labels to cards
 4. ability to add checklist to cards
 5. ability to add members to cards.
+6. write tests for the project.
 
 
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
