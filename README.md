@@ -25,7 +25,7 @@ Given the fact that this task is designed to test ability rather than design, my
 ## Time Spent
 I spent a little over 4 hours on this, I believe i spent a maximum of 30 mins extra, it's most likely less than 30 mins though.
 
-## Thingd I would have worked on if this was to be released to production
+## Things I would have worked on if this was to be released to production
 If this was to be released to production, a few of the things i would have worked on or added to this would include:
 
 1. a better state management system
