@@ -77,7 +77,7 @@ const Card: React.FC<CardProps> = ({
                                             >
                                                 {
                                                     data.map((value: Record<string, any>, index: number) => {
-                                                        return activeList !== index && <option key={index} value={index}>{value.title}</option>;
+                                                        return <option key={index} value={index}>{value.title}</option>;
                                                     })
                                                 }
                                             </select>
